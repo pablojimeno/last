@@ -58,22 +58,32 @@ describe "Evolving only the center cell" do
 		Cell.dead
 	end
 
-	it	"stays alive with two live neighbors" do
-		center_cell = Cell.alive
-		Population.with([[alive, alive, dead], [dead, center_cell, dead], [dead, dead, dead]]).evolve
-		center_cell.should be_alive
+	context "center cell starts alive" do
+		it	"stays alive with two live neighbors" do
+			center_cell = Cell.alive
+			Population.with([[alive, alive, dead], [dead, center_cell, dead], [dead, dead, dead]]).evolve
+			center_cell.should be_alive
+		end
+
+		it	"dies with four live neighbors" do
+			center_cell = Cell.alive
+			Population.with([[alive, alive, alive], [alive, center_cell, dead], [dead, dead, dead]]).evolve
+			center_cell.should_not be_alive
+		end
+
+		it	"stays alive with three live neighbors" do
+			center_cell = Cell.alive
+			Population.with([[alive, alive, alive], [dead, center_cell, dead], [dead, dead, dead]]).evolve
+			center_cell.should be_alive
+		end
 	end
 
-	it	"dies with four live neighbors" do
-		center_cell = Cell.alive
-		Population.with([[alive, alive, alive], [alive, center_cell, dead], [dead, dead, dead]]).evolve
-		center_cell.should_not be_alive
+	context "center cell starts dead" do
+		it	"comes alive with three live neighbors" do
+			center_cell = Cell.dead
+			Population.with([[alive, alive, alive], [dead, center_cell, dead], [dead, dead, dead]]).evolve
+			center_cell.should be_alive
+		end
 	end
-
-	it	"stays alive with three live neighbors" do
-		center_cell = Cell.alive
-		Population.with([[alive, alive, alive], [dead, center_cell, dead], [dead, dead, dead]]).evolve
-		center_cell.should be_alive
-	end	
 
 end
