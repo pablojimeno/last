@@ -16,7 +16,7 @@ class Cell
 	end
 
 	def evolve(live_neighbors)
-		@alive = live_neighbors == 2 || live_neighbors == 3
+		@alive = (2..3).include?(live_neighbors)
 	end
 
 	def alive?
