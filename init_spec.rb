@@ -16,7 +16,7 @@ class Cell
 	end
 
 	def evolve(live_neighbors)
-		@alive = live_neighbors == 2
+		@alive = live_neighbors == 2 || live_neighbors == 3
 	end
 
 	def alive?
@@ -69,5 +69,11 @@ describe "Evolving only the center cell" do
 		Population.with([[alive, alive, alive], [alive, center_cell, dead], [dead, dead, dead]]).evolve
 		center_cell.should_not be_alive
 	end
+
+	it	"stays alive with three live neighbors" do
+		center_cell = Cell.alive
+		Population.with([[alive, alive, alive], [dead, center_cell, dead], [dead, dead, dead]]).evolve
+		center_cell.should be_alive
+	end	
 
 end
