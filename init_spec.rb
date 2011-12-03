@@ -16,7 +16,11 @@ class Cell
 	end
 
 	def evolve(live_neighbors)
-		@alive = (2..3).include?(live_neighbors)
+		@alive = live_neighbors_needed_to_live.include?(live_neighbors)
+	end
+
+	def live_neighbors_needed_to_live
+		alive? ? (2..3) : [3]	
 	end
 
 	def alive?
@@ -83,6 +87,12 @@ describe "Evolving only the center cell" do
 			center_cell = Cell.dead
 			Population.with([[alive, alive, alive], [dead, center_cell, dead], [dead, dead, dead]]).evolve
 			center_cell.should be_alive
+		end
+
+		it	"stays dead with only two live neighbors" do
+			center_cell = Cell.dead
+			Population.with([[alive, alive, dead], [dead, center_cell, dead], [dead, dead, dead]]).evolve
+			center_cell.should_not be_alive
 		end
 	end
 
